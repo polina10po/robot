@@ -1,0 +1,385 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Параметры робота
+{% endblock %}
+
+{% block body %}
+
+<div class="m-5 row row-cols-1 row-cols-md-2">
+    <!-- Скорость -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Скорость</h5>
+                <canvas id="speed"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("speed").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    {% for item in data_speed %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Скорость",
+            data: [
+                {% for item in data_speed %}
+                    {{ item.result }},
+                {% endfor %}
+            ],
+            borderColor: "#6c757d",
+            cubicInterpolationMode: 'monotone',
+            fill: false
+            }]
+            }
+        });
+    </script>
+    <!-- Состояние движения -->
+    <div class="col">
+        <div class="col px-4 py-5">
+            <div class="card text-center">
+                <div class="card-body text-center container">
+                    <h5 class="fs-2 text py-2">Состояние системы движения</h5>
+                    <canvas id="state"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+       var ctx = document.getElementById("state").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [ 
+                    // "не работает","работает"
+                    {% for item in data_state %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Состояние системы движения",
+            data: [
+                {% for item in data_state %}
+                    {{ item.result }},
+                {% endfor %}
+            ],
+            borderColor: "#6c757d",
+            cubicInterpolationMode: 'monotone',
+            fill: false
+            }]
+            }
+        });
+    </script>
+    <!-- Пройденный путь -->
+    <div class="col">
+        <div class="col px-4 py-5">
+            <div class="card text-center">
+                <div class="card-body text-center container">
+                    <h5 class="fs-2 text py-2">Пройденный путь</h5>
+                    <canvas id="passed"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("passed").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: [
+                    {% for item in data_passed %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Пройденный путь",
+            data: [
+                {% for item in data_passed %}
+                    {{ item.result }},
+                {% endfor %}
+            ],
+            borderColor: "#6c757d",
+            cubicInterpolationMode: 'monotone',
+            fill: false
+            }]
+            }
+        });
+    </script>
+    <!-- Угол по гироскопу -->
+    <div class="col">
+        <div class="col px-4 py-5">
+            <div class="card text-center">
+                <div class="card-body text-center container">
+                    <h5 class="fs-2 text py-2">Угол по гироскопу</h5>
+                    <canvas id="angle"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("angle").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    {% for item in data_angle %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Угол по гироскопу",
+            data: [
+                {% for item in data_passed %}
+                    {{ item.result }},
+                {% endfor %}
+            ],
+            borderColor: "#6c757d",
+            fill: false
+            }]
+            }
+        });
+    </script>
+    <!--Напряжение на батарее -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Напряжение на батарее</h5>
+                <canvas id="voltage"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("voltage").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    {% for item in data_voltage %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Напряжение на батарее",
+            data: [
+                {% for item in data_voltage %}
+                    {{ item.result }},
+                {% endfor %}
+            ],
+            borderColor: "#6c757d",
+            cubicInterpolationMode: 'monotone',
+            fill: false
+            }]
+            }   
+        });
+    </script>
+    <!-- Ток на моторе -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Ток на моторе</h5>
+                <canvas id="current"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("current").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    {% for item in data_current %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "Ток на левом моторе",
+            data: [
+                {% for item in data_current %}
+                    {{ item.lft }},
+                {% endfor %}
+            ],
+            borderColor: "crimson",
+            cubicInterpolationMode: 'monotone',
+            fill: false                
+            },
+            {
+            label: "Ток на правом моторе",
+            data: [
+                {% for item in data_current %}
+                    {{ item.rgt }},
+                {% endfor %}
+            ],
+            borderColor: "teal",
+            cubicInterpolationMode: 'monotone',
+            fill: false                
+            }
+            ]
+            }
+        });
+    </script>
+    <!-- ШИМ мотора -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">ШИМ мотора</h5>
+                <canvas id="pwn"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("pwn").getContext("2d");;
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: [
+                    {% for item in data_pwn %}
+                        {{ item.id }},
+                    {% endfor %}
+                ],
+            datasets: [{
+            label: "ШИМ левого мотора",
+            data: [
+                {% for item in data_pwn %}
+                    {{ item.lft }},
+                {% endfor %}
+            ],
+            borderColor: "crimson",
+            cubicInterpolationMode: 'monotone',
+            fill: false                
+            },
+            {
+            label: "ШИМ правого мотора",
+                data: [
+                    {% for item in data_pwn %}
+                        {{ item.rgt }},
+                    {% endfor %}
+                ],
+            borderColor: "teal",
+            cubicInterpolationMode: 'monotone',
+            fill: false                
+            }
+            ]
+            }
+        });
+    </script>
+    <!-- Расстояние по сонару -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Расстояние по сонару</h5>
+                <canvas id="dst"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('dst').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Спереди-справа', 'Спереди-слева', 'Слева-спереди', 'Слева-сзади', 'Справа-спереди', 'Справа-сзади'],
+                datasets: [{
+                    data: [
+                        {% for item in data_dst %}
+                            {{ item.frw_rgt_dst }},
+                            {{ item.frw_lft_dst }},
+                            {{ item.lft_frw_dst }},
+                            {{ item.lft_bkw_dst }},
+                            {{ item.rgt_frw_dst }},
+                            {{ item.rgt_bkw_dst }}
+                        {% endfor %}      
+                    ],
+                label: "Расстояние по сонару",
+                fill: true,
+                backgroundColor: "rgba(179,181,198,0.2)",
+                borderColor: "rgba(179,181,198,1)",
+                pointBorderColor: "#fff",
+                pointBackgroundColor: "rgba(179,181,198,1)",
+                }]
+            }
+        });
+    </script>
+    <!-- Расстояние по ик датчику -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Расстояние по ИК датчику</h5>
+                <canvas id="ik"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('ik').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Спереди-справа', 'Спереди-слева', 'Слева', 'Справа', 'Сзади'],
+                datasets: [{
+                    data: [
+                        {% for item in data_ik %}
+                            {{ item.frw_rgt_ik }},
+                            {{ item.frw_lft_ik }},
+                            {{ item.lft_ik }},
+                            {{ item.rgt_ik }},
+                            {{ item.bkw_ik }},
+                        {% endfor %}      
+                    ],
+                label: "Расстояние по ИК датчику",
+                fill: true,
+                backgroundColor: "rgba(179,181,198,0.2)",
+                borderColor: "rgba(179,181,198,1)",
+                pointBorderColor: "#fff",
+                pointBackgroundColor: "rgba(179,181,198,1)",
+                }]
+            }
+        });
+    </script>
+    <!-- Расстояние по лидару -->
+    <div class="col px-4 py-5">
+        <div class="card text-center">
+            <div class="card-body text-center container">
+                <h5 class="fs-2 text py-2">Расстояние по лидару</h5>
+                <canvas id="ld"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('ld').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Спереди-слева', 'Спереди-середина', 'Спереди-справа', 'Справа-спереди', 'Справа-середина', 'Справа-сзади', 'Сзади-справа', 'Сзади-середина', 'Сзади-слева', 'Слева-сзади', 'Слева-середина', 'Слева-спереди'],
+                datasets: [{
+                    data: [
+                        {% for item in data_ld %}
+                            {{ item.frw_lft_ld }},//Спереди-слева
+                            {{ item.frw_mdl_ld }},//Спереди-середина
+                            {{ item.frw_rgt_ld }},//Спереди-справа
+                            {{ item.rgt_frw_ld }},//Справа-спереди
+                            {{ item.rgt_mdl_ld }},//Справа-середина
+                            {{ item.rgt_bck_ld }},//Справа-сзади
+                            {{ item.bck_rgt_ld }},//Сзади-справа
+                            {{ item.bck_mdl_ld }},//Сзади-середина
+                            {{ item.bck_lft_ld }},//Сзади-слева
+                            {{ item.lft_bck_ld }},//Слева-сзади
+                            {{ item.lft_mdl_ld }},//Слева-середина
+                            {{ item.lft_frw_ld }},//Слева-спереди
+                        {% endfor %}      
+                    ],
+                    label: "Расстояние по лидару",
+                    fill: true,
+                    backgroundColor: "rgba(179,181,198,0.2)",
+                    borderColor: "rgba(179,181,198,1)",
+                    pointBorderColor: "#fff",
+                    pointBackgroundColor: "rgba(179,181,198,1)",
+                }]
+            }
+        });
+    </script>
+</div>
+{% endblock %}
